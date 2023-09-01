@@ -10,12 +10,14 @@ urlpatterns = [
 ]
 
 
-user = UserTable.get_user("Anton")
+# user = UserTable.get_user("Anton")
+#
+# sections = SectionTable.get_sections(user.get("user").get("username"))
+#
+# items = ItemTable.get_items(sections[0].get("section").get("id"))
+#
+# dats = DataTable.get_data(items[0].get("id"))
 
-sections = SectionTable.get_sections(user.get("user").get("username"))
-
-items = ItemTable.get_items(sections[0].get("section").get("id"))
-
-dats = DataTable.get_data(items[0].get("id"))
+# user = UserTable.add_user("anton", "Qwerty32")
 
 pass
