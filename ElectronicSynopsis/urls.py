@@ -2,11 +2,20 @@ from django.contrib import admin
 from django.urls import path
 
 from ElectronicSynopsis.db_helper import UserTable, SectionTable, ItemTable, DataTable
-from ElectronicSynopsis.views import Main
+from ElectronicSynopsis.views import Main, get_authorization_data_handle, login_handle, logout_handle, \
+    get_sections_handle, upload_section_image_handle, add_new_section_handle
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", Main.as_view())
+    path("", Main.as_view()),
+
+    path("get_authorization_data", get_authorization_data_handle),
+    path("login", login_handle),
+    path("logout", logout_handle),
+
+    path("get_sections", get_sections_handle),
+    path("upload_section_image", upload_section_image_handle),
+    path("add_new_section", add_new_section_handle)
 ]
 
 

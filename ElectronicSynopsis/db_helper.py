@@ -32,13 +32,13 @@ class SectionTable:
     def get_sections(username):
         users = CustomUser.objects.filter(username=username)
         if len(users) > 0:
-            return [section.json() for section in Section.objects.filter(user=users[0])]
+            return [section.json().get("section") for section in Section.objects.filter(user=users[0])]
 
     @staticmethod
     def add_section(username, title):
         users = CustomUser.objects.filter(username=username)
         if len(users) > 0:
-            section = Section.objects.create(user=users[0])
+            section = Section.objects.create(user=users[0], title=title)
             return section.json()
 
     @staticmethod

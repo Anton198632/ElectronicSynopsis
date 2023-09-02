@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = ['username', 'is_admin']
 
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("is_admin", )}),)
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("is_admin", 'avatar')}),)
 
 
 class SectionAdmin(admin.ModelAdmin):
