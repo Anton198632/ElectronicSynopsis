@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import AuthorizationForm from './components/authorization-form/authorization-form';
 
 import { setSections, setUser } from './redux/actions';
+import Header from './components/header/header';
+import Content from './components/content/content';
 
 function App() {
 
@@ -54,7 +56,13 @@ function App() {
       {user === null ? <AuthorizationForm setDataUser={setDataUser} /> :
 
         <div>
-            <DrawerAppBar />
+             <DrawerAppBar />
+
+             <Header />
+
+             <Content />
+
+            
         </div>
       
       
