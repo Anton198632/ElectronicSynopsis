@@ -5,6 +5,8 @@ const firstInit = {
 
     connection: true,
 
+    theme: "light",
+
     user: {
         id: 1,
         username: "Anton",
@@ -20,6 +22,10 @@ const firstInit = {
         // {id: 1, title: "Химия", icon: ""},
 
     ],
+
+    selectedSection: {id: 1, title: "Алгебра", icon: "555.png"},
+
+
 
        
 }
@@ -60,6 +66,9 @@ export const reducer = (state = firstInit, action) => {
             sections.push(action.section)
 
             return {...state, sections: sections}
+
+        case "SET_SELECTED_SECTION":
+            return {...state, selectedSection: action.section}
 
         
         default:

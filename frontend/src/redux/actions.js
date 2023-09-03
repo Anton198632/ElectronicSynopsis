@@ -17,3 +17,7 @@ export const setSectionIcon = (sectionId, iconPath) => (
 export const addSection = (section) => (
     {type: "ADD_SECTION", section}
 )
+
+export const setSelectedSection = (section) => (
+    {type: "SET_SELECTED_SECTION", section}
+)

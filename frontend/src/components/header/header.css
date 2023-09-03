@@ -1,0 +1,25 @@
+.header {
+    height: 64px;
+    border-bottom: 1px solid black;
+
+    display: flex;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    margin-left: 64px;
+    width: calc(100% - 64px);
+}
+
+.selected-section {
+    font-size: x-large;
+}
+
+.header-right {
+    display: flex;
+    justify-content: space-between;
+    width: 64px;
+    margin-right: 12px;
+}
