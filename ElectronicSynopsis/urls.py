@@ -3,7 +3,8 @@ from django.urls import path
 
 from ElectronicSynopsis.db_helper import UserTable, SectionTable, ItemTable, DataTable
 from ElectronicSynopsis.views import Main, get_authorization_data_handle, login_handle, logout_handle, \
-    get_sections_handle, upload_section_image_handle, add_new_section_handle
+    get_sections_handle, upload_section_image_handle, add_new_section_handle, get_items_handle, \
+    upload_item_image_handle, add_new_item_handle, get_data_handle
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,7 +16,14 @@ urlpatterns = [
 
     path("get_sections", get_sections_handle),
     path("upload_section_image", upload_section_image_handle),
-    path("add_new_section", add_new_section_handle)
+    path("add_new_section", add_new_section_handle),
+
+    path("get_items", get_items_handle),
+    path("upload_item_image", upload_item_image_handle),
+    path("add_new_item", add_new_item_handle),
+
+    path("get_data", get_data_handle)
+
 ]
 
 

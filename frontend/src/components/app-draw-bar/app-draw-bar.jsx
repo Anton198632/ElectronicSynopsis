@@ -23,7 +23,7 @@ import cancelIcon from "../../images/cancel-icon.png";
 
 
 import "./app-draw-bar.css";
-import { setUser, setSectionIcon, addSection, setSelectedSection } from '../../redux/actions';
+import { setUser, setSectionIcon, addSection, setSelectedSection, setItemsList } from '../../redux/actions';
 
 
 const drawerWidth = 240;
@@ -46,6 +46,7 @@ export const DrawerAppBar = (props) => {
       logOut, 
       uploadSectionImage,
       addNewSection,
+      getItems,
      } = useDataBaseService();
 
     const {user, sections } = useSelector(state => state);
@@ -69,6 +70,10 @@ export const DrawerAppBar = (props) => {
 
     const onClickHandle = (section) => {
         dispatch(setSelectedSection(section));
+        dispatch(setItemsList([]));
+        getItems(section.id).then(response => {
+          dispatch(setItemsList(response.items));
+        })
     }
 
     const onClickLogoutHandle = (e) => {
@@ -80,7 +85,7 @@ export const DrawerAppBar = (props) => {
 
 
     // Загрузка файла-картинки на сервер 
-    const onClockUpdateImage = (sectionId) => {
+    const onClickUpdateImage = (sectionId) => {
 
       const element = document.querySelector("#inputFileUploader")
 
@@ -158,9 +163,9 @@ export const DrawerAppBar = (props) => {
                   {/* ?v=${Math.random()} - исключает кэширование изображения */}
                   <img className='section-img'
                     src={`${getServerAddress()}/static/${section.icon}?v=${Math.random()}`}
-                   onClick={() => onClockUpdateImage(section.id)}/>
+                   onClick={() => onClickUpdateImage(section.id)}/>
                 </div>
-                :<img className='section-icon-plug' src={photoPlug} onClick={() => onClockUpdateImage(section.id)} />}
+                :<img className='section-icon-plug' src={photoPlug} onClick={() => onClickUpdateImage(section.id)} />}
                 
                 <ListItemText primary={section.title} />
                 

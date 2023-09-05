@@ -46,6 +46,26 @@ const useDataBaseService = () => {
     } 
 
 
+    const getItems = async (sectionId) => {
+        return await request("", `${address}/get_items?section_id=${sectionId}`)
+    }
+
+    const uploadItemImage = async (itemId, file) => {
+        return await request("", `${address}/upload_item_image?itemId=${itemId}`, "POST", file, {})
+    }
+
+    const addNewItem = async (sectionId, itemId, title) => {
+        const _title = encodeURIComponent(title);
+        return await request("", `${address}/add_new_item?sectionId=${sectionId}&itemId=${itemId}&title=${_title}`)
+    }
+
+
+
+    const getData = async (itemId) => {
+        return await request("", `${address}/get_data?itemId=${itemId}`)
+    }
+
+
 
     return {
 
@@ -58,6 +78,12 @@ const useDataBaseService = () => {
         getSections,
         uploadSectionImage,
         addNewSection,
+
+        getItems,
+        uploadItemImage,
+        addNewItem,
+
+        getData,
 
     }
 

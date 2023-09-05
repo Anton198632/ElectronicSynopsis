@@ -23,3 +23,12 @@
     width: 64px;
     margin-right: 12px;
 }
+
+.header-icon {
+    cursor: pointer;
+    opacity: .5;
+}
+
+.header-icon:hover {
+    opacity: 1;
+}

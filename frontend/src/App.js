@@ -7,9 +7,12 @@ import useDataBaseService from './services/DataBaseService';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthorizationForm from './components/authorization-form/authorization-form';
 
-import { setSections, setUser } from './redux/actions';
+import { setItemMenuCoords, setSections, setUser, setTextEditMenuCoords } from './redux/actions';
 import Header from './components/header/header';
 import Content from './components/content/content';
+import TooltipMenuItem from './components/menu/tooltip-menu-item';
+import AddItemWindow from './components/modal-windows/add-item-window/add-item-window';
+import TextEditMenu from './components/menu/text-edit-menu';
 
 function App() {
 
@@ -23,7 +26,6 @@ function App() {
   useEffect(() => {
 
     getAuthorizationData().then(response => {
-      console.log(response);
       if (response.user === "anonymous_user") {
         dispatch(setUser(null));
       } else {
@@ -49,18 +51,29 @@ function App() {
   }
 
 
+  const onClickHandle = () => {
+
+    dispatch(setItemMenuCoords(undefined));
+    // dispatch(setTextEditMenuCoords(undefined));
+  }
+
 
   return (
-    <div className="App">
+    <div className="App" onClick={onClickHandle}>
 
       {user === null ? <AuthorizationForm setDataUser={setDataUser} /> :
 
         <div>
              <DrawerAppBar />
+             <TooltipMenuItem />
+             <TextEditMenu />
+             <AddItemWindow />
 
              <Header />
 
              <Content />
+
+             
 
             
         </div>

@@ -24,8 +24,8 @@ export default function () {
             </div>
 
             <div className="header-right">
-                <img src={settingsBlackIcon} />
-                <img src={themeBlackIcon} />
+                <img className="header-icon" src={settingsBlackIcon} />
+                <img className="header-icon" src={themeBlackIcon} />
 
             </div>
             
