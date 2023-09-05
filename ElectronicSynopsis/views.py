@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
-from ElectronicSynopsis.db_helper import UserTable, SectionTable
+from ElectronicSynopsis.db_helper import UserTable, SectionTable, ItemTable, DataTable
 from ElectronicSynopsis.settings import BASE_DIR
 
 
@@ -72,6 +72,7 @@ def get_sections_handle(request):
 
     return JsonResponse({"sections": sections})
 
+
 @csrf_exempt
 def upload_section_image_handle(request):
 
@@ -97,3 +98,52 @@ def add_new_section_handle(request):
     section = SectionTable.add_section(username, title)
 
     return JsonResponse(section)
+
+
+@check_authorizations
+def get_items_handle(request):
+
+    section_id = request.GET.get("section_id")
+
+    items = ItemTable.get_items(section_id)
+
+    return JsonResponse({"items": items})
+
+
+@csrf_exempt
+def upload_item_image_handle(request):
+
+    item_id = request.GET.get("itemId")
+    file = request.FILES.get("file").file
+
+    ava_path = BASE_DIR / f"attachments/avatars_items/{item_id}"
+
+    ItemTable.set_item_icon(int(item_id), f"avatars_items/{item_id}")
+
+    with open(ava_path, "wb") as f:
+        f.write(file.read())
+
+    return JsonResponse({"icon": f"avatars_items/{item_id}"})
+
+
+@check_authorizations
+def add_new_item_handle(request):
+
+    section_id = request.GET.get("sectionId")
+    item_id = None if request.GET.get("itemId") == "null" else int(request.GET.get("itemId"))
+    title = request.GET.get("title")
+
+    ItemTable.add_item(title, section_id, owner_id=item_id)
+
+    items = ItemTable.get_items(section_id)
+    return JsonResponse({"items": items})
+
+
+@check_authorizations
+def get_data_handle(request):
+
+    item_id = request.GET.get("itemId")
+
+    data = DataTable.get_data(int(item_id))
+
+    return JsonResponse({"data": data})

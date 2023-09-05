@@ -91,7 +91,7 @@ class ItemTable:
             item = Item.objects.create(
                 section=sections[0],
                 title=title,
-                owner_id=Item.objects.filter(pk=owner_id)[0] if owner_id is not None else None
+                owner=Item.objects.filter(pk=owner_id)[0] if owner_id is not None else None
             )
 
             return item.json()
@@ -111,7 +111,8 @@ class DataTable:
     def get_data(item_id):
         items = Item.objects.filter(pk=item_id)
         if len(items) > 0:
-            return [data.json() for data in Data.objects.filter(item=items[0])]
+            return [data.json().get("data") for data in Data.objects.filter(item=items[0])]
+        return []
 
     @staticmethod
     def add_data(item_id, order_id, type_, data_content):

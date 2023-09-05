@@ -1,0 +1,17 @@
+.tooltip-menu {
+    position: absolute;
+    z-index: 101;
+    background: white;
+    border: 1px solid #c6c6c6;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tooltip-item {
+    margin: 10px 0px;
+    padding: 0px 10px;
+}
+
+.tooltip-item:hover {
+    background: #c6c6c6;
+}
