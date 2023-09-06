@@ -65,6 +65,10 @@ const useDataBaseService = () => {
         return await request("", `${address}/get_data?itemId=${itemId}`)
     }
 
+    const uploadDataImage = async (file) => {
+        return await request("", `${address}/upload_data_image`, "POST", file, {})
+    }
+
 
 
     return {
@@ -84,7 +88,7 @@ const useDataBaseService = () => {
         addNewItem,
 
         getData,
-
+        uploadDataImage,
     }
 
 }

@@ -7,7 +7,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import StyledTreeItem from './styled-tree-item';
 
-import { setSelectedItem, setShowAddItemWindow, setItemMenuCoords } from "../../../redux/actions";
+import { setSelectedItem, setShowAddItemWindow, setItemMenuCoords, setData } from "../../../redux/actions";
 
 export default function () {
 
@@ -24,7 +24,7 @@ export default function () {
         dispatch(setSelectedItem(item));
 
         getData(item.id).then(response => {
-            console.log(response.data);
+            dispatch(setData(response.data))
         })
 
     }

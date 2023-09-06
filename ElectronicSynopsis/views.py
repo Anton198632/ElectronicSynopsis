@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
-from ElectronicSynopsis.db_helper import UserTable, SectionTable, ItemTable, DataTable
+from ElectronicSynopsis.db_helper import UserTable, SectionTable, ItemTable, DataTable, AttachmentTable
 from ElectronicSynopsis.settings import BASE_DIR
 
 
@@ -147,3 +147,17 @@ def get_data_handle(request):
     data = DataTable.get_data(int(item_id))
 
     return JsonResponse({"data": data})
+
+
+@csrf_exempt
+def upload_data_image_handle(request):
+    file = request.FILES.get("file").file
+
+    attach_number = AttachmentTable.get_attachment_number()
+
+    ava_path = BASE_DIR / f"attachments/images/{attach_number}"
+
+    with open(ava_path, "wb") as f:
+        f.write(file.read())
+
+    return JsonResponse({"imagePath": f"{attach_number}"})

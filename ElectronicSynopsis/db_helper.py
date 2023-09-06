@@ -148,9 +148,12 @@ class AttachmentTable:
 
         if len(attach) > 0:
             counter = attach[0].counter
+        else:
+            counter = Attachment.objects.create(counter=0)
 
-            Attachment.objects.all().update(counter=counter + 1)
-            return counter
+        Attachment.objects.all().update(counter=counter + 1)
+        return counter
+
 
 
 

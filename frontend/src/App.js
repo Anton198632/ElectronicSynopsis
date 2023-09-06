@@ -51,7 +51,9 @@ function App() {
   }
 
 
-  const onClickHandle = () => {
+  const onClickHandle = (e) => {
+
+    e.preventDefault();
 
     dispatch(setItemMenuCoords(undefined));
     // dispatch(setTextEditMenuCoords(undefined));

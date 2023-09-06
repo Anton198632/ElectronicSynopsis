@@ -62,3 +62,48 @@
     font-weight: 700;
 }
 
+.color-picker {
+    visibility: visible;
+    position: absolute;
+    right: 130px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #c6c6c6;
+}
+
+
+  /*  COLOR PICKER */
+
+  /* .ColorPicker-MuiBox-root {
+    background: rgb(32, 32, 32);
+    border: 1px solid #9e9b9b;
+
+  } */
+/* 
+  .ColorPicker-MuiBox-root * {
+    color: white !important;
+  } */
+
+  
+/* .ColorPicker-makeStyles-root-1:focus {
+    box-shadow: none !important;
+}
+
+.makeStyles-root-2 {
+    width: 50% !important;
+}
+
+.ColorPicker-makeStyles-root-3 {
+    height: 36px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 0px 0px 5px 5px !important;
+} */
+
+/* .makeStyles-root-3 {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+}  */

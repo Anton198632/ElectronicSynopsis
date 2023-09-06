@@ -47,7 +47,7 @@ export default function () {
 
                 <ReflexSplitter />
 
-                <ReflexElement className="right-pane section">
+                <ReflexElement className="right-pane section" style={{position: "unset"}}>
                     
                     <DataMenu />
                     <DataList />
