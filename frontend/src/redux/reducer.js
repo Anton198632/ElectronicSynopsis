@@ -76,8 +76,10 @@ const firstInit = {
         //     "type": "image",
         //     "data_content": "1.jpg"
         // }
-    ]
+    ],
 
+
+    textEditMenuCoords: undefined,
 
 
 
@@ -157,6 +159,9 @@ export const reducer = (state = firstInit, action) => {
 
         case "SHOW_ADD_ITEM_WINDOW":
             return {...state, showAddItemWindow: action.isShow}
+
+        case "SET_TEXT_EDIT_MENU_COORDS":
+            return {...state, textEditMenuCoords: action.coords}
         
 
         

@@ -1,6 +1,3 @@
-import { Cookie } from "@mui/icons-material";
-import { useEffect, useState } from "react";
-
 import "./tooltip-menu-item.css"
 import { useDispatch, useSelector } from "react-redux";
 
