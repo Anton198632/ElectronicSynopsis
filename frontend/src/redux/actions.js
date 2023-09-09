@@ -6,6 +6,10 @@ export const setUser = (user) => (
     {type: "SET_USER", user}
 )
 
+export const setUserAvatar = (filePath) => (
+  {type: "SET_USER_AVATAR", filePath}
+) 
+
 export const setSections = (sections) => (
     {type: "SET_SECTIONS", sections}
 )
@@ -70,6 +74,22 @@ export const setSelectedSection = (section) => (
    {type: "ADD_IMAGE_FIELD_TO_DATA", imagePath}
  )
 
+ export const addFileFieldData = (filePath) => (
+  {type: "ADD_FILE_FIELD_TO_DATA", filePath}
+ )
+
+ export const addFormulsFieldData = () => (
+   {type: "ADD_FORMULA_FIELD_TO_DATA",}
+ )
+
  export const rewriteTextData = (orderId, text) => (
    {type: "REWRITE_TEXT_DATA", orderId, text}
+ )
+
+ export const setEditState = (isEdit) => (
+   {type: "SET_EDIT_STATE", isEdit}
+ )
+
+ export const deleteDataItem = (num) => (
+   {type: "DELETE_DATA_NUM", num}
  )

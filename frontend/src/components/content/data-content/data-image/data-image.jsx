@@ -1,13 +1,19 @@
 import { useState } from "react";
 import "./data-image.css";
 import styled from 'styled-components';
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
+
+import iconDelete from "../../../../images/icon-delete.png";
 
 export default function (props) {
 
 
     const [isFullScreen, setIsFullScreen] = useState(false);
-    
+
+    const [isMouseEnter, setIsMousEnter] = useState(false);
+
+    const {isEditState} = useSelector(state=>state);
+
     const toggleFullScreen = () => {
         setIsFullScreen(!isFullScreen);
     };
@@ -18,8 +24,6 @@ export default function (props) {
 
     const ImageContainer = styled.div`
   position: relative;
-  margin: 12px;
-  width: 80%;
   overflow: hidden;
   border: 1px solid ${isLightTheme?"rgb(198 198 198 / 19%)":"#393939"};
 
@@ -37,20 +41,48 @@ export default function (props) {
   }
 `;
 
+    const onMouseEnterHandle = () => {
+      setIsMousEnter(true);
+    }
+
+    const onMouseLeaveHandle = () => {
+      setIsMousEnter(false);
+    }
+
+    const onClickDeleteHandle = () => {
+      props.showDeleteConfirm(props.dataId, props.dataItemNum)
+  }
+
     return (
 
-      <ImageContainer className="image-container code-image code-item" 
-          >
-            
-            <img 
-            src={props.value} 
-            alt="Image"
-            className={`${isFullScreen ? 'fullscreen-image' : ''} `}
-            onClick={toggleFullScreen}
-          />
+      <div className="data-image"
+      onTouchStart={onMouseEnterHandle}
+      onPointerEnter={onMouseEnterHandle}
+      onMouseEnter={onMouseEnterHandle}
 
+      onTouchCancel={onMouseLeaveHandle}
+      onPointerCancel={onMouseLeaveHandle}
+      onMouseLeave={onMouseLeaveHandle}
+      
+      >
+        <ImageContainer className="image-container code-image code-item" 
+        id={`order-id-${props.orderId}`} >
 
-      </ImageContainer>
+              <img 
+              src={props.value} 
+              alt="Image"
+              className={`${isFullScreen ? 'fullscreen-image' : ''} `}
+              onClick={toggleFullScreen}
+            />
+        </ImageContainer>
+
+        {isEditState && isMouseEnter ?
+        <img className="data-del" 
+        onClick={onClickDeleteHandle} 
+        src={iconDelete} />
+        :<></>}
+      </div>
+      
 
 )
 

@@ -30,6 +30,11 @@ const useDataBaseService = () => {
         return await request("", `${address}/logout?`);
     }
 
+    const changeUserAvatar = async (userId, file) => {
+        return await request("", `${address}/change_user_avatar?user_id=${userId}`, "POST", file, {})
+    }
+
+    
     const getSections = async (userName) => {
         const _userName = encodeURIComponent(userName);
         return await request("", `${address}/get_sections?username=${_userName}`)
@@ -59,8 +64,16 @@ const useDataBaseService = () => {
         return await request("", `${address}/add_new_item?sectionId=${sectionId}&itemId=${itemId}&title=${_title}`)
     }
 
+    const deleteItem = async (itemId) => {
+        return await request("", `${address}/delete_item?itemId=${itemId}`)
+    }
 
+    const getItemsByWords = async(sectionId, words) => {
+        const _words = encodeURIComponent(words);
+        return await request("", `${address}/get_items_by_words?section_id=${sectionId}&words=${_words}`)
+    }
 
+    
     const getData = async (itemId) => {
         return await request("", `${address}/get_data?itemId=${itemId}`)
     }
@@ -68,6 +81,22 @@ const useDataBaseService = () => {
     const uploadDataImage = async (file) => {
         return await request("", `${address}/upload_data_image`, "POST", file, {})
     }
+
+    const uploadFile = async (fileName, file) => {
+        const _fileName = encodeURIComponent(fileName);
+        return await request("", `${address}/upload_file?fileName=${_fileName}`, "POST", file, {})
+    }
+
+    const saveData = async (itemId, data) => {
+        const json_data = JSON.stringify({itemId, data})
+
+        return await request("", `${address}/save_data?`, "POST", json_data);
+    }
+
+    const deleteData = async (dataId) => {
+        return await request("", `${address}/delete_data?dataId=${dataId}`);
+    }
+
 
 
 
@@ -78,17 +107,23 @@ const useDataBaseService = () => {
         getAuthorizationData,
         logIn,
         logOut,
+        changeUserAvatar,
 
         getSections,
         uploadSectionImage,
         addNewSection,
 
         getItems,
+        getItemsByWords,
         uploadItemImage,
         addNewItem,
+        deleteItem,
 
         getData,
         uploadDataImage,
+        saveData,
+        deleteData, 
+        uploadFile
     }
 
 }

@@ -3,6 +3,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import "./search.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef } from "react";
+import { setData, setItemsList, setSelectedItem } from "../../../redux/actions";
+import useDataBaseService from "../../../services/DataBaseService";
 
 
 
@@ -11,12 +13,12 @@ export default function () {
 
     const refInput = useRef(null);
 
-    const {theme, selectedLang} = useSelector(state=>state);
+    const {theme, selectedSection} = useSelector(state=>state);
     const isLightTheme = theme==="light";
 
     const dispatch = useDispatch();
 
-    // const {getCodeListBySearch, getCodeListByLang} = useDataBaseService();
+    const {getItems, getItemsByWords} = useDataBaseService();
 
     const defaultTheme = createTheme({})
 
@@ -66,17 +68,22 @@ export default function () {
 
     const searchOnClickHandle = (e) => {
 
-        // dispatch(setCodeList(null));
-        // dispatch(setCodeData([]));
+        if (!selectedSection)
+            return
 
-        // if (refInput.current.value !== "")
-        //         getCodeListBySearch(selectedLang.alias, refInput.current.value).then(response => {
-        //             dispatch(setCodeList(response.catalogData));
-        //         })
-        // else 
-        //     getCodeListByLang(selectedLang.alias).then(response => {
-        //         dispatch(setCodeList(response.catalogData));
-        //     })
+        dispatch(setSelectedItem(null));
+        dispatch(setItemsList([]))
+        dispatch(setData([]))
+        
+
+        if (refInput.current.value !== "")
+            getItemsByWords(selectedSection.id, refInput.current.value).then(response => {
+                dispatch(setItemsList(response.items));
+            })
+        else 
+            getItems(selectedSection.id).then(response => {
+                dispatch(setItemsList(response.items));
+            })
     }
 
 

@@ -23,7 +23,7 @@ import cancelIcon from "../../images/cancel-icon.png";
 
 
 import "./app-draw-bar.css";
-import { setUser, setSectionIcon, addSection, setSelectedSection, setItemsList } from '../../redux/actions';
+import { setUser, setSectionIcon, addSection, setSelectedSection, setItemsList, setData, setSelectedItem, setUserAvatar } from '../../redux/actions';
 
 
 const drawerWidth = 240;
@@ -44,6 +44,7 @@ export const DrawerAppBar = (props) => {
     const {
       getServerAddress, 
       logOut, 
+      changeUserAvatar,
       uploadSectionImage,
       addNewSection,
       getItems,
@@ -63,6 +64,7 @@ export const DrawerAppBar = (props) => {
       // проверяем и исключаем сворачивание бокового меню при клике на некоторые элементы
       if (!classNameElement.includes("section-img") &&
           !classNameElement.includes("section-icon") &&
+          !classNameElement.includes("user-avatar") &&
           !classNameElement.includes("new-section") &&
           !classNameElement.includes("button-add-section"))
         setMobileOpen((prevState) => !prevState);
@@ -71,6 +73,8 @@ export const DrawerAppBar = (props) => {
     const onClickHandle = (section) => {
         dispatch(setSelectedSection(section));
         dispatch(setItemsList([]));
+        dispatch(setData([]));
+        dispatch(setSelectedItem(null))
         getItems(section.id).then(response => {
           dispatch(setItemsList(response.items));
         })
@@ -115,6 +119,29 @@ export const DrawerAppBar = (props) => {
         element.dispatchEvent(clickElement);
     }
 
+    const onClickUserAvatarHandle = () => {
+      const element = document.querySelector("#inputFileUploader")
+
+      const clickElement = new MouseEvent("click", {});
+
+      element.onchange = e => {
+          const [file] = element.files;
+
+          if (file) {
+              const data = new FormData();
+
+              data.append("file", file)
+
+              changeUserAvatar(user.id, data).then(response => {
+                dispatch(setUserAvatar(response.filePath))
+              })
+
+              element.value = null;                
+          }
+      }
+      element.dispatchEvent(clickElement);
+    }
+
 
     const onClickNewSectionHandle = () => {
       setNewSectionVisibility("visible");
@@ -139,7 +166,10 @@ export const DrawerAppBar = (props) => {
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
           <div className='user-data'>
             <div className='avatar'>
-              <img src={`${getServerAddress()}/static/${user.avatar}`}/>
+
+              <img className='user-avatar'
+              src={user.avatar!==""?`${getServerAddress()}/static/avatars_users/${user.avatar}?v=${Math.random()}`:photoPlug}
+              onClick={onClickUserAvatarHandle}/>
             </div>
             <div className='username'>
               {user.username}

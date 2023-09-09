@@ -157,7 +157,7 @@ export default function () {
                 <div className="edit-text-menu" style={{left: textEditMenuCoords.x, top: textEditMenuCoords.y}}>
                 <div className="edit-text-list">
                     <Select
-                     sx={{height: "56px", width: "56px"}}
+                     sx={{height: "32px", width: "56px"}}
                       value={font.fontSize}
                       onChange={handleChange}
                       displayEmpty

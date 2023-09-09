@@ -3,7 +3,7 @@ import "react-reflex/styles.css"
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import "./content.css";
 import ItemsList from "./items/items-list";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setItemsListWidth, setItemMenuCoords, setSelectedItem} from "../../redux/actions";
 import DataMenu from "./data-content/data-menu/data-menu";
@@ -12,6 +12,8 @@ import DataList from "./data-content/data-list";
 export default function () {
 
     const dispatch = useDispatch();
+
+    const {selectedItemId} = useSelector(state=>state);
 
     const onResizeHandle = (e) => {
         const width = e.domElement.clientWidth - 50;
@@ -49,7 +51,7 @@ export default function () {
 
                 <ReflexElement className="right-pane section" style={{position: "unset"}}>
                     
-                    <DataMenu />
+                    {selectedItemId?<DataMenu />:<></>}
                     <DataList />
 
                 </ReflexElement>

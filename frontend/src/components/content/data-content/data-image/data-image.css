@@ -1,3 +1,10 @@
+.data-image {
+  width: 100%;
+    padding: 12px 54px 12px 24px;
+
+    position: relative;
+}
+
 .image-container {
     position: relative;
     cursor: pointer;
@@ -6,7 +13,7 @@
   
   .image-container>img {
     z-index: 0;
-    
+    position: relative;
   }
   
     

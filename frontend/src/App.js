@@ -13,6 +13,7 @@ import Content from './components/content/content';
 import TooltipMenuItem from './components/menu/tooltip-menu-item';
 import AddItemWindow from './components/modal-windows/add-item-window/add-item-window';
 import TextEditMenu from './components/menu/text-edit-menu';
+import ConfirmWindow from './components/modal-windows/confirm-window/confirm-window';
 
 function App() {
 
@@ -60,12 +61,17 @@ function App() {
   }
 
 
+
+
   return (
     <div className="App" onClick={onClickHandle}>
 
       {user === null ? <AuthorizationForm setDataUser={setDataUser} /> :
 
         <div>
+
+              
+
              <DrawerAppBar />
              <TooltipMenuItem />
              <TextEditMenu />

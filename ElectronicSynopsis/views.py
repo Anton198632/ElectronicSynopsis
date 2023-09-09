@@ -64,6 +64,22 @@ def logout_handle(request):
     return JsonResponse({"registration": "logout"})
 
 
+@csrf_exempt
+def change_user_avatar_handle(request):
+
+    user_id = request.GET.get("user_id")
+    file = request.FILES.get("file").file
+
+    ava_path = BASE_DIR / f"attachments/avatars_users/{user_id}"
+
+    UserTable.set_user_avatar(int(user_id), user_id)
+
+    with open(ava_path, "wb") as f:
+        f.write(file.read())
+
+    return JsonResponse({"filePath": f"{user_id}"})
+
+
 @check_authorizations
 def get_sections_handle(request):
 
@@ -110,6 +126,18 @@ def get_items_handle(request):
     return JsonResponse({"items": items})
 
 
+@check_authorizations
+def get_items_by_words_handle(request):
+
+    section_id = request.GET.get("section_id")
+    words = request.GET.get("words")
+
+    items = ItemTable.get_items_by_words(section_id, words)
+
+    return JsonResponse({"items": items})
+
+
+
 @csrf_exempt
 def upload_item_image_handle(request):
 
@@ -140,6 +168,15 @@ def add_new_item_handle(request):
 
 
 @check_authorizations
+def delete_item_handle(request):
+    item_id = request.GET.get("itemId")
+
+    ItemTable.delete_item(int(item_id))
+
+    return JsonResponse({"result": "deleted"})
+
+
+@check_authorizations
 def get_data_handle(request):
 
     item_id = request.GET.get("itemId")
@@ -161,3 +198,40 @@ def upload_data_image_handle(request):
         f.write(file.read())
 
     return JsonResponse({"imagePath": f"{attach_number}"})
+
+
+@csrf_exempt
+def upload_file_handle(request):
+    file = request.FILES.get("file").file
+    file_name = request.GET.get("fileName")
+
+    attach_number = AttachmentTable.get_attachment_number()
+
+    file_path = BASE_DIR / f"attachments/files/{attach_number}_{file_name}"
+
+    with open(file_path, "wb") as f:
+        f.write(file.read())
+
+    return JsonResponse({"filePath": f"{attach_number}_{file_name}"})
+
+
+@csrf_exempt
+def save_data_handle(request):
+    body = json.loads(request.body.decode(encoding='utf-8'))
+
+    item_id = body.get("itemId")
+    data = body.get("data")
+
+    DataTable.update_all_data(item_id, data)
+
+    return JsonResponse({"result": "save"})
+
+
+@check_authorizations
+def delete_data_handle(request):
+
+    data_id = request.GET.get("dataId")
+
+    DataTable.delete_data(int(data_id))
+
+    return JsonResponse({"result": "deleted"})

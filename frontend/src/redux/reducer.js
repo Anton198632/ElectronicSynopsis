@@ -7,6 +7,8 @@ const firstInit = {
 
     theme: "light",
 
+    isEditState: false,
+
     user: {
         id: 1,
         username: "Anton",
@@ -75,7 +77,19 @@ const firstInit = {
             "order_id": 2,
             "type": "image",
             "data_content": "1.jpg"
-        }
+        },
+        {
+            "id": 5,
+            "order_id": 3,
+            "type": "formula",
+            "data_content": "\\( E = mc^2 \\)"
+        },
+        {
+            "id": 6,
+            "order_id": 4,
+            "type": "file",
+            "data_content": "23_название файла.docx"
+        },
     ],
 
     currentEditTextNumber: -1,
@@ -120,6 +134,9 @@ export const reducer = (state = firstInit, action) => {
 
         case "SET_USER":
             return { ...state, user: action.user }
+
+        case "SET_USER_AVATAR":
+            return {...state, user: {...state.user, avatar: action.filePath}}
 
         case "SET_SECTIONS":
             return {...state, sections: action.sections}
@@ -179,17 +196,46 @@ export const reducer = (state = firstInit, action) => {
 
         case "ADD_TEXT_FIELD_TO_DATA":
             const data = state.data
-            const maxId = data.reduce((max, obj) => (obj.id > max ? obj.id : max), data[0].id);
-            data.push({id: -1, order_id: maxId+1, type: "text", data_content: ""})
+            let maxOrderId = 0
+            if (data.length > 0)
+                maxOrderId = data.reduce((max, obj) => (obj.order_id > max ? obj.order_id : max), data[0].order_id);
+            
+            data.push({id: -1, order_id: maxOrderId+1, type: "text", data_content: ""})
 
             return {...state, data: data }
 
+        case "ADD_FORMULA_FIELD_TO_DATA":
+            const dataF = state.data
+            let maxOrderIdF = 0
+            if (dataF.length > 0)
+                maxOrderIdF = dataF.reduce((max, obj) => (obj.order_id > max ? obj.order_id : max), dataF[0].order_id);
+            
+            dataF.push({id: -1, order_id: maxOrderIdF+1, type: "formula", data_content: ""})
+
+            return {...state, data: dataF }
+
         case "ADD_IMAGE_FIELD_TO_DATA":
             const dataI = state.data
-            const maxIdI = dataI.reduce((max, obj) => (obj.id > max ? obj.id : max), dataI[0].id);
-            dataI.push({id: -1, order_id: maxIdI+1, type: "image", data_content: action.imagePath})
+
+            let maxOrder_Id = 0
+            if (dataI.length > 0)
+                maxOrder_Id = dataI.reduce((max, obj) => (obj.order_id > max ? obj.order_id : max), dataI[0].order_id);
+
+                dataI.push({id: -1, order_id: maxOrder_Id+1, type: "image", data_content: action.imagePath})
 
             return {...state, data: dataI }
+
+        case "ADD_FILE_FIELD_TO_DATA":
+            const dataFile = state.data
+
+            let maxOrder_Id_file = 0
+            if (dataFile.length > 0)
+            maxOrder_Id_file = dataFile.reduce((max, obj) => (obj.order_id > max ? obj.order_id : max), dataFile[0].order_id);
+
+                dataFile.push({id: -1, order_id: maxOrder_Id_file+1, type: "file", data_content: action.filePath})
+
+            return {...state, data: dataFile }
+
 
         case "SET_CURRENT_EDIT_TEXT_NUMBER":
             return {...state, currentEditTextNumber: action.num}
@@ -202,6 +248,16 @@ export const reducer = (state = firstInit, action) => {
             })
 
             return {...state, data: newData}
+
+        case "SET_EDIT_STATE":
+            return {...state, isEditState: action.isEdit}
+
+        case "DELETE_DATA_NUM":
+            const dataD = [...state.data];
+            dataD.splice(action.num, 1)
+            console.log(dataD);
+            
+            return {...state, data: dataD}
         
 
         

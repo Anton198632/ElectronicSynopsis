@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from ElectronicSynopsis.models import CustomUser, Section, Item, Data, Attachment
 
@@ -11,6 +12,10 @@ class UserTable:
         users = CustomUser.objects.filter(username=username)
         for user in users:
             return user.json()
+
+    @staticmethod
+    def set_user_avatar(user_id, avatar):
+        CustomUser.objects.filter(pk=user_id).update(avatar=avatar)
 
     @staticmethod
     def add_user(username, password):
@@ -82,6 +87,24 @@ class ItemTable:
             return ItemTable.__create_tree_structure(root_items)
 
     @staticmethod
+    def get_items_by_words(section_id, words):
+
+        sections = Section.objects.filter(pk=section_id)
+
+        if len(sections) > 0:
+            q = Q(section=sections[0]) \
+                & (Q(data__data_content__icontains=words) |
+                   Q(title__icontains=words) |
+                   Q(tags__icontains=words))
+
+            its = Item.objects.filter(q)
+
+            items = [item.json().get("item") for item in Item.objects.filter(q)]
+
+            return items
+
+
+    @staticmethod
     def add_item(title, section_id, owner_id=None):
 
         sections = Section.objects.filter(pk=section_id)
@@ -135,8 +158,29 @@ class DataTable:
     @staticmethod
     def update_data(data_id, order_id, type_, data_content):
         Data.objects.filter(pk=data_id).update(
-            order_id=order_id, type=type, data_content=data_content
+            order_id=order_id, type=type_, data_content=data_content
         )
+
+    @staticmethod
+    def update_all_data(item_id, data_list):
+        for data in data_list:
+            if data.get("id") > -1:
+                DataTable.update_data(
+                    data.get("id"),
+                    data.get("order_id"),
+                    data.get("type"),
+                    data.get("data_content"))
+            else:
+                DataTable.add_data(
+                    item_id,
+                    data.get("order_id"),
+                    data.get("type"),
+                    data.get("data_content"))
+
+        return True
+
+
+
 
 
 
